@@ -6,7 +6,7 @@
     "global_setting": true, 
     "language": "English", 
     "platform": "Arduino AVR Boards", 
-    "pre_setting_folder_path": "/Users/daveyvanderwoert/Documents/Arduino/fluffyLedController", 
+    "pre_setting_folder_path": "/Users/daveyvanderwoert/Documents/Arduino/fluffyLedControler", 
     "programmer": "AVR ISP", 
     "serial_port": "/dev/cu.Bluetooth-PDA-Sync", 
     "show_arduino_menu": true, 
