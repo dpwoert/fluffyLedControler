@@ -6,6 +6,12 @@ const byte PETER_RIVER = 2;
 const byte WISTERIA = 3;
 const byte WHITE = 4;
 
+//grid
+byte ledMapping[] = { 0, 1, 2, 3,
+                      7, 6, 5, 4,
+                      8, 9,10,11,
+                     15,14,13,12 };
+
 void initColors(){
   //flat ui colors [http://flatuicolors.com]
 
@@ -58,6 +64,14 @@ void showLedPixels() {
   byte i;
 
   for (i=0; i<NROFPIXELS; i++) {
+
+    //switch off pixels not in grid
+    if(i > (NROFCOL * NROFROWS) - 1){
+      ledPixels[i][0] = 0;
+      ledPixels[i][1] = 0;
+      ledPixels[i][2] = 0;
+    }
+
     SPI.transfer(ledPixels[i][0]);
     SPI.transfer(ledPixels[i][1]);
     SPI.transfer(ledPixels[i][2]);
@@ -66,13 +80,13 @@ void showLedPixels() {
 
 //whiteflash
 void colorFlash(int color){
-  int i;
+  byte i;
   for (i=0; i<NROFPIXELS; i++) {
     ledPixels[i][0]=colors[color][0];
     ledPixels[i][1]=colors[color][1];
     ledPixels[i][2]=colors[color][2];
   } 
-  showLedPixels();
+  //showLedPixels();
 }
 
 //converting grid value to ledpixel value
@@ -80,9 +94,9 @@ int XYtoLedNr(int x, int y){
 
   int lednr = (y*(NROFCOL) + x)-NROFCOL;
   
-  //lednr = LED_VOLGORDE[lednr];
+  lednr = ledMapping[lednr];
   
   if(lednr < 1){ lednr = 1; }
   
-  return lednr-1; 
+  return lednr; 
 }

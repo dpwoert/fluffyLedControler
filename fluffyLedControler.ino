@@ -10,7 +10,7 @@ with arduino
 Davey van der Woert
 Jesse van Rheenen
 Mathijs Bontje
-*/ 
+*/
 
 //Importing libaries
 #include <SPI.h> //SPI voor LEDs
@@ -19,14 +19,14 @@ Mathijs Bontje
 int pinFlex = A0;
 
 //ledwire config
-const byte NROFPIXELS = 24; //No. leds
+const byte NROFPIXELS = 25; //No. leds
 const byte NROFROWS = 4; //No. leds in a row
 const byte NROFCOL = 4; //No. leds in a collumn
 byte ledPixels[NROFPIXELS][3];
 
 //timer
-const byte FPS = 60; //FPS for timer
-const byte FLEX_INTERVAL = 5 * 1000; //seconds
+const byte FPS = 12; //FPS for timer
+const long FLEX_INTERVAL = 5000; //milliseconds
 unsigned long TIMER;
 unsigned long TIMER_LED;
 unsigned long TIMER_FLEX;
@@ -42,6 +42,8 @@ void setup() {
   SPI.setDataMode(SPI_MODE0);
   SPI.setClockDivider(SPI_CLOCK_DIV16);
 
+  clearAllPixels();
+
   //Start timer
   TIMER_LED = millis();
   TIMER_FLEX = millis();
@@ -49,26 +51,36 @@ void setup() {
 }
 
 void loop() {
-	//timer updaten
-  	TIMER = millis();
+  //timer updaten
+    TIMER = millis();
 
-  	int interval = 1000 / FPS;
+    int interval = 1000 / FPS;
 
     //(led) timer
-  	if(TIMER - TIMER_LED > interval){
-  		
-  		//Time reset
-    	TIMER_LED = millis();
+    if(TIMER - TIMER_LED > interval){
+      
+      //Time reset
+      TIMER_LED = millis();
+      
+      //refresh leds
+      showLedPixels();
 
-	  }
+    }
 
     //flex timer
-    if(TIMER - TIMER_FLEX > FLEX_INTERVAL){
+    int delta = TIMER - TIMER_FLEX;
+    if(delta > FLEX_INTERVAL){
+
+      Serial.println("TRIGGER");
 
       //Time reset
       TIMER_FLEX = millis();
 
       checkActivity();
+      
+      int kleurtje = random(0,5);
+      colorFlash(kleurtje);
 
     }
+
 }
