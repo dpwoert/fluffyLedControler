@@ -42,10 +42,19 @@ void initColors(){
 
 }
 
-void setColor(int pixel, int color){
-  ledPixels[pixel][0] = colors[color][0];
-  ledPixels[pixel][1] = colors[color][1];
-  ledPixels[pixel][2] = colors[color][2];
+// void setColor(int pixel, int color){
+//   ledPixels[pixel][0] = colors[color][0];
+//   ledPixels[pixel][1] = colors[color][1];
+//   ledPixels[pixel][2] = colors[color][2];
+// }
+
+void setColor(int pixel, int color, int multiply){
+  //Serial.println((colors[color][0] * multiply)/100);
+  ledPixels[pixel][0] = (colors[color][0]*multiply/100);
+  ledPixels[pixel][1] = (colors[color][1]*multiply/100);
+  ledPixels[pixel][2] = (colors[color][2]*multiply/100);
+  //ledPixels[pixel][1] = colors[color][1];
+  //ledPixels[pixel][2] = colors[color][2];
 }
 
 //switching off all pixels

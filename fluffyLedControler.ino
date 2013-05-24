@@ -31,6 +31,9 @@ unsigned long TIMER;
 unsigned long TIMER_LED;
 unsigned long TIMER_FLEX;
 
+const byte threshold = 40; //need to get higher sensor data than this to trigger events
+byte randomColor = 0;
+
 void setup() {
   //start console for debugging
   Serial.begin(9600);
@@ -62,6 +65,9 @@ void loop() {
       //Time reset
       TIMER_LED = millis();
       
+      //get sensor data
+      flex();
+
       //refresh leds
       showLedPixels();
 
@@ -71,15 +77,13 @@ void loop() {
     int delta = TIMER - TIMER_FLEX;
     if(delta > FLEX_INTERVAL){
 
-      Serial.println("TRIGGER");
-
       //Time reset
       TIMER_FLEX = millis();
 
       checkActivity();
       
-      int kleurtje = random(0,5);
-      colorFlash(kleurtje);
+      //int kleurtje = random(0,5);
+      //colorFlash(kleurtje);
 
     }
 
